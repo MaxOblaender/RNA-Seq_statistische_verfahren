@@ -29,4 +29,5 @@ for (gene in arab_data[,4:ncol(arab_data)]) {
     results[[gene]] = summary(model)
 }
 
+save(results, file="complete_model.RData")
 print(results$Gen1)
