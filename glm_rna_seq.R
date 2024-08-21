@@ -21,7 +21,7 @@ results = list()
 
 # Schleife über alle Gene um den Behandlungseffekt für jedes Gen zu schätzen
 # erste drei Zeilen sind nur treatment und zeit
-for (gene in colnames(data)[4:ncol(data)]) {
+for (gene in arab_data[,4:ncol(arab_data)]) {
 
     #as.formula kann den string als Formel auszuführen
     formula = as.formula(paste(gene, "~ treatment + time"))
