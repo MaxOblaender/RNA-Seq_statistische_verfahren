@@ -1,3 +1,5 @@
+require(MASS)
+
 ### READ IN ###
 
 arab_data = read.csv("arab.csv")
@@ -6,12 +8,14 @@ arab_data = read.csv("arab.csv")
 arab_data$time = as.factor(arab_data$time)
 arab_data$treatment = as.factor(arab_data$treatment)
 
-### MODEL ###
+### MODEL ### Zum testen
 
-model = glm.nb(gene1 ~ treatment + time, data = arab_data)
+gene1 = arab_data[,4]
+model = glm.nb(gene1 ~ treatment + time, data = arab_data) # hier können wir uns noch eine link funktion überlegen
+# mit link = log z.B. 
 #Ich bin mir nicht mehr sicher mit dem treatment und den Dummyvariablen?
 
-summary(model)
+print(summary(model))
 
 results = list()
 
@@ -19,7 +23,7 @@ results = list()
 # erste drei Zeilen sind nur treatment und zeit
 for (gene in colnames(data)[4:ncol(data)]) {
 
-    # as.formula kann den string als Formel auszuführen
+    as.formula kann den string als Formel auszuführen
     formula = as.formula(paste(gene, "~ treatment + time"))
 
     model = glm.nb(formula, data = arab_data) # ich weiß nicht mehr genau, wie man die glms richtig hier aufschreibt in R. # nolint: line_length_linter.
@@ -27,4 +31,4 @@ for (gene in colnames(data)[4:ncol(data)]) {
     results[[gene]] = summary(model)
 }
 
-results$Gen1
+print(results$Gen1)
