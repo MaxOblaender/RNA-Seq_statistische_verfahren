@@ -23,7 +23,7 @@ results = list()
 # erste drei Zeilen sind nur treatment und zeit
 for (gene in colnames(data)[4:ncol(data)]) {
 
-    as.formula kann den string als Formel auszuführen
+    #as.formula kann den string als Formel auszuführen
     formula = as.formula(paste(gene, "~ treatment + time"))
 
     model = glm.nb(formula, data = arab_data) # ich weiß nicht mehr genau, wie man die glms richtig hier aufschreibt in R. # nolint: line_length_linter.
