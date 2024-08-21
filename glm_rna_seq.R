@@ -17,6 +17,7 @@ model = glm.nb(gene1 ~ treatment + time, data = arab_data) # hier können wir un
 
 print(summary(model))
 
+save(model, file = "test_model.RData")
 results = list()
 
 # Schleife über alle Gene um den Behandlungseffekt für jedes Gen zu schätzen
