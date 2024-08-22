@@ -20,5 +20,5 @@ for (gene in arab_data[, 4:ncol(arab_data)]) {
     results = append(results, model)
 }
 
-save(results, file="model.RData")
+saveRDS(results, file="model.RData")
 print(results$Gen1)
