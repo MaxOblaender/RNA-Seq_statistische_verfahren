@@ -6,21 +6,23 @@ require(MASS)
 
 arab_data = read.csv("arab.csv")
 
-# Initialisierung der Ergebnisliste
-results = list()
+names=colnames(arab_data)
+
+#model = glm.nb(arab_data[,7] ~ as.factor(treatment)+time, data = arab_data)
+#saveRDS(model, file=paste("models/",names[7],".RData"))
 
 # Schleife über alle Gene um den Behandlungseffekt für jedes Gen zu schätzen
 # erste drei Zeilen sind nur treatment und zeit
-i=0
+i=3
 for (gene in arab_data[, 4:ncol(arab_data)]) {
     i=i+1
     # Modell wird für jedes Gen berechnet und in die Liste results hinzugefügt
     # TODO: link-Funktion
     model = glm.nb(gene ~ as.factor(treatment)+time, data = arab_data)
-    results[[i]]= model
+    saveRDS(model, file=paste("models/",names[i],".RData"))
+    
+    #results[[i]]= model
     #results=list(results, model)
     
     #results = append(results, model)
 }
-
-saveRDS(results, file="model.RData")
