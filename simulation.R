@@ -2,7 +2,6 @@
     ### Signifikansüberprüfung: siehe Übung 11_b (Likelihood-Quotienten-Test?) ###
 
     ### Einlesen von den Modelldaten ###
-    model_list=list()
     files = list.files(path="models", full.names=TRUE)
 
     # Simulation von Daten basierend auf der negativen Binomialverteilung -> response gibt Mittelwert für die nb verteilung zurück?)
