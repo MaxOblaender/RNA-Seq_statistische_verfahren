@@ -1,4 +1,4 @@
-p_data=read.csv("p_values for genes.csv")
+p_data=read.csv("p_values_for_genes.csv")
 
 #Schritt 1: Sortieren der p-Werte
  p_data=p_data[order(p_data$p_value),]
@@ -15,4 +15,4 @@ for (i in 1:length(p_data$p_value)){
         p_data$significant_fdr[i]=TRUE
     }
 }
-write.csv(p_data, "p_values fdr.csv")
+write.csv(p_data, "p_values_fdr.csv")

@@ -25,5 +25,5 @@ for (file in files) {
     
 }
 
-write.csv(p_values, "p_values for genes.csv")
+write.csv(p_values, "p_values_for_genes.csv")
 
