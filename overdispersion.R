@@ -16,21 +16,24 @@ for (gene in arab_data[, 4:ncol(arab_data)]) {
 png("plots/mean_comparison.png", width = 800, height = 600)
 plot(values$mean,values$varianz,
 xlab="mean",ylab="var",
-xlim=c(0,1000000),ylim=c(0,1000000))
+xlim=c(0,1000000),ylim=c(0,1000000),
+main = "Variance to mean")
 abline(a = 0, b = 1, col = "red", lwd = 2)
 dev.off() 
 
 png("plots/mean_var_diff.png", width = 800, height = 600)
 hist(values$diff,
 breaks = 100,
-xlim = c(min(values$diff), max(values$diff)))
+xlim = c(min(values$diff), max(values$diff)),
+main = "Difference of variance and mean")
 dev.off() 
 
 filtered_values = values[values$mean <= 1000, ]
 png("plots/mean.png", width = 800, height = 600)
 hist(filtered_values$mean,
 breaks=100,
-xlim = c(-1000,1000))
+xlim = c(-1000,1000),
+main = "Histogram of Mean Values up to 1000")
 dev.off() 
 
 print(max(values$mean))
