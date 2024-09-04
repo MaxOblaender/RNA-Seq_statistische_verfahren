@@ -1,30 +1,63 @@
-       require(MASS)
-    ### Signifikansüberprüfung: siehe Übung 11_b (Likelihood-Quotienten-Test?) ###
+require(MASS)
+library(dplyr)
 
-    ### Einlesen von den Modelldaten ###
-    files = list.files(path="models", full.names=TRUE)
+files = list.files(path = "models", full.names = TRUE)
 
-    # Simulation von Daten basierend auf der negativen Binomialverteilung -> response gibt Mittelwert für die nb verteilung zurück?)
+# Extrahieren von signifikanten Genen
+p_values = read.csv("p_values_for_genes.csv")
 
-    simulated_results_mock <- list()
-    simulated_results_treated <- list()
-    num_simulations = 10 #hier auf gewuenschten Wert anpassen TODO
+significant_ids = p_values %>%
+  filter(significant == TRUE) %>%
+  pull(id)
 
-    for (file in files) {
-        model <- readRDS(file)
+# hier Lehrzeichen vor file Endung beachten
+significant_files <- files[basename(files) %in% paste0(significant_ids, " .RData")]
 
-        mu_mock <- predict(model, newdata = data.frame(treatment = "mock", time = c(1, 2, 3)), type = "response")# type = "response" gibt den Mittelwert (mu) zurück
-        mu_treated <- predict(model, newdata = data.frame(treatment = "hrcc", time = c(1, 2, 3)), type = "response") #kann man bestimmt auch in einem berechnen. Hab das jetzt nur zur Übersicht in zwei geteilt.
-        
-        simulated_data_mock <- replicate(num_simulations, rnegbin(n = length(mu), mu = mu_mock, theta = model$theta)) # mit n = 1000 hätte die means berechnung schwerer gemacht. deshalb replicate
-        simulated_data_treated <- replicate(num_simulations, rnegbin(n = length(mu), mu = mu_treated, theta = model$theta))#jedes modell hat wohl schon ein theta
-        
-        mean_simulated_data_mock <- rowMeans(simulated_data_mock) #hier wird der durchschnitt berechnet
-        mean_simulated_data_treated <- rowMeans(simulated_data_treated)
+# extrahieren von nicht signifikanten Genen
+non_significant_ids = p_values %>%
+  filter(significant == FALSE) %>%
+  pull(id)
 
-        simulated_results_mock[[file]] <- mean_simulated_data_mock
-        simulated_results_treated[[file]] <- mean_simulated_data_treated
-    }
+non_significant_files <- files[basename(files) %in% paste0(non_significant_ids, " .RData")]
 
-    print(simulated_results_mock)
-    print(simulated_results_treated)
+# Simulation von Daten basierend auf der negativen Binomialverteilung -> response gibt Mittelwert für die nb verteilung zurück?
+
+load_model <- function(file) {
+    readRDS(file)
+  }
+
+# Load models
+significant_models <- lapply(significant_files, load_model)
+non_significant_models <- lapply(non_significant_files, load_model)
+
+# Function to simulate gene expression data
+simulate_gene_expression <- function(model, num_simulations = 1) {
+    mu <- predict(model, newdata = data.frame(treatment = "mock", time = c(1, 2, 3)), type = "response")
+    theta <- model$theta
+    replicate(num_simulations, rnegbin(n = length(mu), mu = mu, theta = theta))
+  }
+
+# Simulate data for non-significant genes (same expression)
+simulated_data_non_significant <- lapply(non_significant_models, simulate_gene_expression)
+
+# Simulate data for significant genes (different expression)
+# Assuming a change in mean expression for significant genes
+simulate_gene_expression_significant <- function(model, num_simulations = 1) {
+    mu <- predict(model, newdata = data.frame(treatment = "hrcc", time = c(1, 2, 3)), type = "response")
+    theta <- model$theta
+    replicate(num_simulations, rnegbin(n = length(mu), mu = mu, theta = theta))
+  }
+
+# Simulate data for significant genes
+simulated_data_significant <- lapply(significant_models, simulate_gene_expression_significant)
+print(simulated_data_non_significant)
+
+# Example to combine and process the simulated data
+# Combine all simulated data for further analysis
+all_simulated_data <- c(simulated_data_non_significant, simulated_data_significant)
+
+# Example processing: Convert to a data frame if needed
+# This step depends on your specific analysis needs
+
+write.csv(all_simulated_data, "all_simulated_data.csv", row.names = FALSE)
+print("Simulation complete.")
