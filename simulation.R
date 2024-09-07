@@ -10,54 +10,71 @@ significant_ids = p_values %>%
   filter(significant == TRUE) %>%
   pull(id)
 
-# hier Lehrzeichen vor file Endung beachten
-significant_files <- files[basename(files) %in% paste0(significant_ids, " .RData")]
+# Beachte das Leerzeichen vor der Dateiendung
+significant_files = files[basename(files) %in% paste0(significant_ids, " .RData")]
 
-# extrahieren von nicht signifikanten Genen
+# Extrahieren von nicht signifikanten Genen
 non_significant_ids = p_values %>%
   filter(significant == FALSE) %>%
   pull(id)
 
-non_significant_files <- files[basename(files) %in% paste0(non_significant_ids, " .RData")]
+non_significant_files = files[basename(files) %in% paste0(non_significant_ids, " .RData")]
 
-# Simulation von Daten basierend auf der negativen Binomialverteilung -> response gibt Mittelwert für die nb verteilung zurück?
-
-load_model <- function(file) {
+# Funktion zum Laden von Modellen
+load_model = function(file) {
     readRDS(file)
-  }
+}
 
-# Load models
-significant_models <- lapply(significant_files, load_model)
-non_significant_models <- lapply(non_significant_files, load_model)
+# Modelle laden und IDs (Dateinamen ohne Pfad und Erweiterung) zuordnen
+significant_models = lapply(significant_files, load_model)
+names(significant_models) = gsub("\\.RData$", "", basename(significant_files))
 
-# Function to simulate gene expression data
-simulate_gene_expression <- function(model, num_simulations = 1) {
-    mu <- predict(model, newdata = data.frame(treatment = "mock", time = c(1, 2, 3)), type = "response")
-    theta <- model$theta
-    replicate(num_simulations, rnegbin(n = length(mu), mu = mu, theta = theta))
-  }
+non_significant_models = lapply(non_significant_files, load_model)
+names(non_significant_models) = gsub("\\.RData$", "", basename(non_significant_files))
 
-# Simulate data for non-significant genes (same expression)
-simulated_data_non_significant <- lapply(non_significant_models, simulate_gene_expression)
+# Funktion zur Simulation von Genexpressionsdaten
+simulate_gene_expression = function(model, model_name, num_simulations = 100) {
+    mu = predict(model, newdata = data.frame(treatment = "mock", time = c(1, 2, 3)), type = "response")
+    theta = model$theta
+    sim_data = replicate(num_simulations, rnegbin(n = length(mu), mu = mu, theta = theta))
+    
+    # Simulierte Daten in ein DataFrame umwandeln
+    sim_df = as.data.frame(t(sim_data))
+    sim_df$id = model_name  # Verwende den Namen der Datei als ID
+    return(sim_df)
+}
 
-# Simulate data for significant genes (different expression)
-# Assuming a change in mean expression for significant genes
-simulate_gene_expression_significant <- function(model, num_simulations = 1) {
-    mu <- predict(model, newdata = data.frame(treatment = "hrcc", time = c(1, 2, 3)), type = "response")
-    theta <- model$theta
-    replicate(num_simulations, rnegbin(n = length(mu), mu = mu, theta = theta))
-  }
+# Funktion zur Simulation von signifikanten Genen
+simulate_gene_expression_significant = function(model, model_name, num_simulations = 100) {
+    mu = predict(model, newdata = data.frame(treatment = "hrcc", time = c(1, 2, 3)), type = "response")
+    theta = model$theta
+    sim_data = replicate(num_simulations, rnegbin(n = length(mu), mu = mu, theta = theta))
+    
+    # Simulierte Daten in ein DataFrame umwandeln
+    sim_df = as.data.frame(t(sim_data))
+    sim_df$id = model_name  # Verwende den Namen der Datei als ID
+    return(sim_df)
+}
 
-# Simulate data for significant genes
-simulated_data_significant <- lapply(significant_models, simulate_gene_expression_significant)
-print(simulated_data_non_significant)
+# Simulierte Daten für nicht signifikante Gene
+simulated_data_non_significant = mapply(simulate_gene_expression, non_significant_models, names(non_significant_models), SIMPLIFY = FALSE)
 
-# Example to combine and process the simulated data
-# Combine all simulated data for further analysis
-all_simulated_data <- c(simulated_data_non_significant, simulated_data_significant)
+# Simulierte Daten für signifikante Gene
+simulated_data_significant = mapply(simulate_gene_expression_significant, significant_models, names(significant_models), SIMPLIFY = FALSE)
 
-# Example processing: Convert to a data frame if needed
-# This step depends on your specific analysis needs
+# Kombinieren der simulierten Daten in einem DataFrame
+simulated_data_non_significant_df = do.call(rbind, simulated_data_non_significant)
+simulated_data_significant_df = do.call(rbind, simulated_data_significant)
 
-write.csv(all_simulated_data, "all_simulated_data.csv", row.names = FALSE)
+# Optional: Eine Spalte hinzufügen, um anzugeben, ob ein Gen signifikant ist oder nicht
+simulated_data_non_significant_df$significant = FALSE
+simulated_data_significant_df$significant = TRUE
+
+# Alle simulierten Daten kombinieren
+all_simulated_data_df = rbind(simulated_data_non_significant_df, simulated_data_significant_df)
+
+# CSV-Datei speichern
+# Im Moment werden die wiederholten SImulationen noch hinter einander in das file geschrieben. 
+# Ich wusste nicht, ob ich den durschschnitt berechnen soll, oder lieber sehen, wie oft sie significant sind (von 1000 Wiederholungen)
+write.csv(all_simulated_data_df, "all_simulated_data.csv", row.names = FALSE)
 print("Simulation complete.")
