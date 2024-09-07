@@ -33,7 +33,7 @@ non_significant_models = lapply(non_significant_files, load_model)
 names(non_significant_models) = gsub("\\.RData$", "", basename(non_significant_files))
 
 # Funktion zur Simulation von Genexpressionsdaten
-simulate_gene_expression = function(model, model_name, num_simulations = 100) {
+simulate_gene_expression = function(model, model_name, num_simulations = 1000) {
     mu = predict(model, newdata = data.frame(treatment = "mock", time = c(1, 2, 3)), type = "response")
     theta = model$theta
     sim_data = replicate(num_simulations, rnegbin(n = length(mu), mu = mu, theta = theta))
@@ -45,7 +45,7 @@ simulate_gene_expression = function(model, model_name, num_simulations = 100) {
 }
 
 # Funktion zur Simulation von signifikanten Genen
-simulate_gene_expression_significant = function(model, model_name, num_simulations = 100) {
+simulate_gene_expression_significant = function(model, model_name, num_simulations = 1000) {
     mu = predict(model, newdata = data.frame(treatment = "hrcc", time = c(1, 2, 3)), type = "response")
     theta = model$theta
     sim_data = replicate(num_simulations, rnegbin(n = length(mu), mu = mu, theta = theta))
