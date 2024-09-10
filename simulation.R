@@ -34,8 +34,12 @@ names(non_significant_models) = gsub("\\.RData$", "", basename(non_significant_f
 
 # Funktion zur Simulation von Genexpressionsdaten
 simulate_gene_expression = function(model, model_name, num_simulations = 1000) {
-    mu = predict(model, newdata = data.frame(treatment = "mock", time = c(1, 2, 3)), type = "response")
-    theta = model$theta
+  # mu = mean(data für Gen)
+  # var = var(data für gen)
+  # theta = mu^2/(var-mu)
+
+    #mu = predict(model, newdata = data.frame(treatment = "mock", time = c(1, 2, 3)), type = "response")
+    #theta = model$theta
     sim_data = replicate(num_simulations, rnegbin(n = length(mu), mu = mu, theta = theta))
     
     # Simulierte Daten in ein DataFrame umwandeln
@@ -44,8 +48,18 @@ simulate_gene_expression = function(model, model_name, num_simulations = 1000) {
     return(sim_df)
 }
 
+# TODO schleife über anz der replikate
+# sim_models einlesen
+# 
+#1,2,3 ... 10 neue daten für jedes gen simulieren
+# neue modelle darauf erstellen
+#fdr darauf untersuchen
+
+#nicht signifikant: ein mittelwert und ein theta aus ausgangsdaten -> 1 x n treatment und nicht treatment simulieren
+#signifikant: 1 x n predict mit treated und 1 x n predict mock.
+
 # Funktion zur Simulation von signifikanten Genen
-simulate_gene_expression_significant = function(model, model_name, num_simulations = 1000) {
+simulate_gene_expression_significant = function(model, model_name, num_simulations = 1000) { #nicht num silmulations sonder num werten
     mu = predict(model, newdata = data.frame(treatment = "hrcc", time = c(1, 2, 3)), type = "response")
     theta = model$theta
     sim_data = replicate(num_simulations, rnegbin(n = length(mu), mu = mu, theta = theta))
