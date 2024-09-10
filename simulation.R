@@ -1,7 +1,7 @@
 require(MASS)
 library(dplyr)
 
-files = list.files(path = "models", full.names = TRUE)
+files = list.files(path = "sim_models", full.names = TRUE)
 
 # Extrahieren von signifikanten Genen
 p_values = read.csv("p_values_for_genes.csv")
@@ -22,30 +22,38 @@ non_significant_files = files[basename(files) %in% paste0(non_significant_ids, "
 
 # Funktion zum Laden von Modellen
 load_model = function(file) {
-    readRDS(file)
+  readRDS(file)
 }
 
 # Modelle laden und IDs (Dateinamen ohne Pfad und Erweiterung) zuordnen
 significant_models = lapply(significant_files, load_model)
-names(significant_models) = gsub("\\.RData$", "", basename(significant_files))
+names(significant_models) = gsub("\\ .RData$", "", basename(significant_files))
 
 non_significant_models = lapply(non_significant_files, load_model)
-names(non_significant_models) = gsub("\\.RData$", "", basename(non_significant_files))
+names(non_significant_models) = gsub("\\ .RData$", "", basename(non_significant_files))
 
 # Funktion zur Simulation von Genexpressionsdaten
-simulate_gene_expression = function(model, model_name, num_simulations = 1000) {
+simulate_non_significant = function(model, model_name, num_simulations) {
   # mu = mean(data für Gen)
   # var = var(data für gen)
   # theta = mu^2/(var-mu)
 
-    #mu = predict(model, newdata = data.frame(treatment = "mock", time = c(1, 2, 3)), type = "response")
-    #theta = model$theta
-    sim_data = replicate(num_simulations, rnegbin(n = length(mu), mu = mu, theta = theta))
+  mu_mock = predict(model, newdata = data.frame(treatment = "mock", type = "response"))
+  mu_hrcc = predict(model, newdata = data.frame(treatment = "hrcc", type = "response"))
+
+  theta = model$theta
+
+  mock_sim = replicate(num_simulations, rnegbin(n = length(mu_mock), mu = mu_mock, theta = theta))
+  hrcc_sim = replicate(num_simulations, rnegbin(n = length(mu_hrcc), mu = mu_hrcc, theta = theta))
     
-    # Simulierte Daten in ein DataFrame umwandeln
-    sim_df = as.data.frame(t(sim_data))
-    sim_df$id = model_name  # Verwende den Namen der Datei als ID
-    return(sim_df)
+  # Simulierte Daten in ein DataFrame umwandeln
+  sim_df = as.data.frame(t(c(mock_sim, hrcc_sim)))
+  #sim_df$id = model_name  # Verwende den Namen der Datei als ID
+  a = c(rep("mock", num_simulations), rep("hrcc", num_simulations))
+  print(a)
+  print(nrow(sim_df))
+
+  return(sim_df)
 }
 
 # TODO schleife über anz der replikate
@@ -59,22 +67,30 @@ simulate_gene_expression = function(model, model_name, num_simulations = 1000) {
 #signifikant: 1 x n predict mit treated und 1 x n predict mock.
 
 # Funktion zur Simulation von signifikanten Genen
-simulate_gene_expression_significant = function(model, model_name, num_simulations = 1000) { #nicht num silmulations sonder num werten
-    mu = predict(model, newdata = data.frame(treatment = "hrcc", time = c(1, 2, 3)), type = "response")
-    theta = model$theta
-    sim_data = replicate(num_simulations, rnegbin(n = length(mu), mu = mu, theta = theta))
+simulate_significant = function(model, model_name, num_simulations) { #nicht num silmulations sonder num werten
+
+  mu_mock = predict(model, newdata = data.frame(treatment = "mock", type = "response"))
+  mu_hrcc = predict(model, newdata = data.frame(treatment = "hrcc", type = "response"))
+
+  theta = model$theta
+
+  mock_sim = replicate(num_simulations, rnegbin(n = length(mu_mock), mu = mu_mock, theta = theta))
+  hrcc_sim = replicate(num_simulations, rnegbin(n = length(mu_hrcc), mu = mu_hrcc, theta = theta))
     
-    # Simulierte Daten in ein DataFrame umwandeln
-    sim_df = as.data.frame(t(sim_data))
-    sim_df$id = model_name  # Verwende den Namen der Datei als ID
-    return(sim_df)
+  # Simulierte Daten in ein DataFrame umwandeln
+  sim_df = as.data.frame(t(c(mock_sim, hrcc_sim)))
+
+  return(sim_df)
 }
 
+num_simulations = 3
 # Simulierte Daten für nicht signifikante Gene
-simulated_data_non_significant = mapply(simulate_gene_expression, non_significant_models, names(non_significant_models), SIMPLIFY = FALSE)
+simulated_data_non_significant = mapply(simulate_non_significant, non_significant_models, names(non_significant_models), num_simulations = num_simulations)
 
 # Simulierte Daten für signifikante Gene
-simulated_data_significant = mapply(simulate_gene_expression_significant, significant_models, names(significant_models), SIMPLIFY = FALSE)
+simulated_data_significant = mapply(simulate_significant, significant_models, names(significant_models), num_simulations = num_simulations)
+rownames(simulated_data_significant) = c(rep("mock", num_simulations), rep("hrcc", num_simulations))
+write.csv(simulated_data_significant,"sim_3_sig.csv")
 
 # Kombinieren der simulierten Daten in einem DataFrame
 simulated_data_non_significant_df = do.call(rbind, simulated_data_non_significant)
