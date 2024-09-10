@@ -17,6 +17,8 @@ for (gene in arab_data[, 4:ncol(arab_data)]) {
     i=i+1
     # Modell wird für jedes Gen berechnet und einzeln gespeichert im Ordner "models"
     # TODO: link-Funktion
-    model = glm.nb(gene ~ as.factor(treatment)+as.factor(time), data = arab_data)
-    saveRDS(model, file=paste("models/",names[i],".RData"))
+    model = glm.nb(gene ~ as.factor(time) + as.factor(treatment), data = arab_data)
+    #saveRDS(model, file=paste("models/",names[i],".RData"))
+    print(summary(model))
 }
+
