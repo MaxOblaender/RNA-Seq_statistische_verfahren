@@ -5,6 +5,7 @@ rm(list = ls())
 require(MASS)
 library(dplyr)
 
+arab_data = read.csv("arab.csv")
 # Laden der Dateien aus dem Verzeichnis "sim_models"
 files <- list.files(path = "sim_models", full.names = TRUE)
 
@@ -39,7 +40,9 @@ names(non_significant_models) <- gsub("\\ .RData$", "", basename(non_significant
 
 # Funktion zur Simulation von Genexpressionsdaten für nicht signifikante Gene
 simulate_non_significant <- function(model, model_name, num_simulations) {
-  mu_mock <- predict(model, newdata = data.frame(treatment = "mock", type = "response"))
+  #mu_mock <- predict(model, newdata = data.frame(treatment = "mock", type = "response"))
+
+  mu_mock = mean(arab_data[[model_name]])
   theta <- model$theta
 
   # Simulation von Daten
@@ -87,7 +90,7 @@ for (num_simulations in 1:1) {
             rep("hrcc", num_simulations))
   rownames(simulated_data_non_significant) <- names
   
-  write.csv(simulated_data_non_significant, paste0("sim_results/", num_simulations, "_nonsig.csv"))
+  #write.csv(simulated_data_non_significant, paste0("sim_results/", num_simulations, "_nonsig.csv"))
   
   # Simulierte Daten für signifikante Gene
   simulated_data_significant <- mapply(simulate_significant, 
@@ -99,7 +102,7 @@ for (num_simulations in 1:1) {
   
   rownames(simulated_data_significant) <- names
   
-  write.csv(simulated_data_significant, paste0("sim_results/", num_simulations,"_sig.csv"))
+  #write.csv(simulated_data_significant, paste0("sim_results/", num_simulations,"_sig.csv"))
 }
 
 # Hinweis: In ein paar spalten werden NAs produziert -> vielleicht noch entfernen?
