@@ -1,3 +1,5 @@
+# TODO: NA abfangen in Simulation, wirft sonst später beim fitten des Modells Fehler
+
 require(MASS)
 library(dplyr)
 
