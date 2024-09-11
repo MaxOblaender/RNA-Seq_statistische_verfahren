@@ -49,4 +49,4 @@ for (i in 1:length(p_values$p_value)){
         p_values$significant_fdr[i]=FALSE
     }
 }
-write.csv(p_values, paste(filename,"_p_values_fdr.csv"))
+write.csv(p_values, paste("fdr_sim_models",filename,"_p_values_fdr.csv"))
