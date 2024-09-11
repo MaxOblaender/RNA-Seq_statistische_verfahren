@@ -13,16 +13,15 @@ for (file in files) {
     model <- readRDS(file)
     # Alle p-Werte des Modells (Spalte Pr>|t|)
     # zweiter Wert von p stellt p-Wert des treatments dar
-    # ist dieses nicht signifikant, ist dieser unter 0.05
+    # ist dieses nicht signifikant, ist dieser über 0.05
     p=summary(model)$coefficients[,4]
-    print(p4)
     signif=TRUE
-    if (p[4]<=0.05){
+    if (p[4]>=0.05){
         signif=FALSE
     }
     name=strsplit(file, split="/")[[1]][2]
     name=strsplit(name, split=" ")[[1]][1]
-    p_values[nrow(p_values)+1,]=c(name,p[2],signif)
+    p_values[nrow(p_values)+1,]=c(name,p[4],signif)
     
 }
 
