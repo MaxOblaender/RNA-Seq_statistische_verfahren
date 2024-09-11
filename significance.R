@@ -25,7 +25,7 @@ for (file in files) {
     
 }
 
-write.csv(p_values, "p_values_for_genes.csv")
+#write.csv(p_values, "p_values_for_genes.csv")
 
 count_significance <- sum(p_values$significant == TRUE)
 count_non_significant = sum(p_values$significant == FALSE)
