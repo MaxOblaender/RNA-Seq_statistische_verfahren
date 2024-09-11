@@ -41,11 +41,13 @@ names(non_significant_models) <- gsub("\\ .RData$", "", basename(non_significant
 simulate_non_significant <- function(model, model_name, num_simulations) {
   mu_mock <- predict(model, newdata = data.frame(treatment = "mock", type = "response"))
   theta <- model$theta
-  
+
   # Simulation von Daten
   mock_sim <- replicate(num_simulations, rnegbin(n = length(mu_mock), mu = mu_mock, theta = theta))
   #hrcc_sim <- replicate(num_simulations, rnegbin(n = length(mu_mock), mu = mu_mock, theta = theta))
-  
+  if(any(is.na(mock_sim))){
+    print(model)
+  }
   # Simulierte Daten in ein DataFrame umwandeln
   sim_df <- as.data.frame(t(c(mock_sim, mock_sim)))
   return(sim_df)
@@ -63,11 +65,14 @@ simulate_significant <- function(model, model_name, num_simulations) {
   
   # Simulierte Daten in ein DataFrame umwandeln
   sim_df <- as.data.frame(t(c(mock_sim, hrcc_sim)))
+  if(any(is.na(sim_df))){
+    print(model)
+  }
   return(sim_df)
 }
 
 # Schleife über die Werte von num_simulations von 1 bis 10
-for (num_simulations in 1:10) {
+for (num_simulations in 1:1) {
   
   # Simulierte Daten für nicht signifikante Gene
   simulated_data_non_significant <- mapply(simulate_non_significant, 
@@ -98,3 +103,6 @@ for (num_simulations in 1:10) {
 }
 
 # Hinweis: In ein paar spalten werden NAs produziert -> vielleicht noch entfernen?
+# Es werden NAs produziert, wenn ein negatives Beta auftritt
+# log der Linkfunktion ist das problem -> muss man die Inverse linkfunktion anwenden?
+# identität für modell berechnung konvergiert nicht
