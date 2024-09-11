@@ -75,24 +75,26 @@ for (num_simulations in 1:10) {
                                            names(non_significant_models), 
                                            num_simulations = num_simulations)
   print(paste0("Number of simulations: ", num_simulations))
-  print(paste0("Dim of non sig. data: ", dim(simulated_data_non_significant)))
+  print("Dim of non sig. data: ")
+  print(dim(simulated_data_non_significant))
   
   names <- c(rep("mock", num_simulations), 
             rep("hrcc", num_simulations))
   rownames(simulated_data_non_significant) <- names
   
-  write.csv(simulated_data_non_significant, paste0("sim_results/sim_", num_simulations, "_nonsig.csv"))
+  write.csv(simulated_data_non_significant, paste0("sim_results/", num_simulations, "_nonsig.csv"))
   
   # Simulierte Daten für signifikante Gene
   simulated_data_significant <- mapply(simulate_significant, 
                                        significant_models, 
                                        names(significant_models), 
                                        num_simulations = num_simulations)
-  print(paste0("Dim of sig. data: ", dim(simulated_data_significant)))
+  print("Dim of sig. data: ")
+  print(dim(simulated_data_significant))
   
   rownames(simulated_data_significant) <- names
   
-  write.csv(simulated_data_significant, paste0("sim_results/sim_", num_simulations,"_sig.csv"))
+  write.csv(simulated_data_significant, paste0("sim_results/", num_simulations,"_sig.csv"))
 }
 
 # Hinweis: In ein paar spalten werden NAs produziert -> vielleicht noch entfernen?
