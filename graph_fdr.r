@@ -22,5 +22,13 @@ for (file in files){
 }
 print(sim_df)
 
+plot(sim_df$number_of_sim_data, sim_df$fdr_significant,
+     xlab = "Number of Simulated Data",  # Label for the x-axis
+     ylab = "FDR Significant Genes",     # Label for the y-axis
+     main = "FDR Significant Genes vs Number of Simulated Data",  # Title of the plot
+     pch = 19,  # Point character (solid circle)
+     col = "blue"  # Color of the points
+)
+
 # plotten der Daten
 # Histogramm von Differenz der FDR signifikanz zu normaler?
