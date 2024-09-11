@@ -1,3 +1,7 @@
+#TODO: Problem bei Berechnung einiger Modelle
+# vermute, dass die Simulation für einige Gene wieder solche Werte produziert, für die kein Modell aufgestellt werden kann (0 0 0 etc.)
+# Überprüfung aber noch ausstehend
+
 require(MASS)
 library(readr)
 library(stringr)
