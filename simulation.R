@@ -49,7 +49,8 @@ simulate_non_significant <- function(model, model_name, num_simulations) {
   mock_sim <- replicate(num_simulations, rnegbin(n = length(mu_mock), mu = mu_mock, theta = theta))
   #hrcc_sim <- replicate(num_simulations, rnegbin(n = length(mu_mock), mu = mu_mock, theta = theta))
   if(any(is.na(mock_sim))){
-    print(model)
+    print(model_name)
+    print(model$model_name)
   }
   # Simulierte Daten in ein DataFrame umwandeln
   sim_df <- as.data.frame(t(c(mock_sim, mock_sim)))
@@ -69,13 +70,14 @@ simulate_significant <- function(model, model_name, num_simulations) {
   # Simulierte Daten in ein DataFrame umwandeln
   sim_df <- as.data.frame(t(c(mock_sim, hrcc_sim)))
   if(any(is.na(sim_df))){
-    print(model)
+    print(model_name)
+    print(model[[model_name]])
   }
   return(sim_df)
 }
 
 # Schleife über die Werte von num_simulations von 1 bis 10
-for (num_simulations in 1:10) {
+for (num_simulations in 3:30) {
   
   # Simulierte Daten für nicht signifikante Gene
   simulated_data_non_significant <- mapply(simulate_non_significant, 
