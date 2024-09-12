@@ -2,143 +2,106 @@ sim_results/10_nonsig.csv
 --------------------------------------------------
 sim_results/10_sig.csv 
 --------------------------------------------------
+sim_results/11_nonsig.csv 
+--------------------------------------------------
+sim_results/11_sig.csv 
+--------------------------------------------------
+sim_results/12_nonsig.csv 
+--------------------------------------------------
+sim_results/12_sig.csv 
+--------------------------------------------------
+sim_results/13_nonsig.csv 
+--------------------------------------------------
+sim_results/13_sig.csv 
+--------------------------------------------------
+sim_results/14_nonsig.csv 
+--------------------------------------------------
+sim_results/14_sig.csv 
+--------------------------------------------------
+sim_results/15_nonsig.csv 
+--------------------------------------------------
+sim_results/15_sig.csv 
+--------------------------------------------------
+sim_results/16_nonsig.csv 
+--------------------------------------------------
+sim_results/16_sig.csv 
+--------------------------------------------------
+sim_results/17_nonsig.csv 
+--------------------------------------------------
+sim_results/17_sig.csv 
+--------------------------------------------------
+sim_results/18_nonsig.csv 
+--------------------------------------------------
+sim_results/18_sig.csv 
+--------------------------------------------------
+sim_results/19_nonsig.csv 
+--------------------------------------------------
+sim_results/19_sig.csv 
+--------------------------------------------------
+sim_results/20_nonsig.csv 
+--------------------------------------------------
+sim_results/20_sig.csv 
+--------------------------------------------------
+sim_results/21_nonsig.csv 
+--------------------------------------------------
+sim_results/21_sig.csv 
+--------------------------------------------------
+sim_results/22_nonsig.csv 
+--------------------------------------------------
+sim_results/22_sig.csv 
+--------------------------------------------------
+sim_results/23_nonsig.csv 
+--------------------------------------------------
+sim_results/23_sig.csv 
+--------------------------------------------------
+sim_results/24_nonsig.csv 
+--------------------------------------------------
+sim_results/24_sig.csv 
+--------------------------------------------------
+sim_results/25_nonsig.csv 
+--------------------------------------------------
+sim_results/25_sig.csv 
+--------------------------------------------------
+sim_results/26_nonsig.csv 
+--------------------------------------------------
+sim_results/26_sig.csv 
+--------------------------------------------------
+sim_results/27_nonsig.csv 
+--------------------------------------------------
+sim_results/27_sig.csv 
+--------------------------------------------------
+sim_results/28_nonsig.csv 
+--------------------------------------------------
+sim_results/28_sig.csv 
+--------------------------------------------------
+sim_results/29_nonsig.csv 
+--------------------------------------------------
+sim_results/29_sig.csv 
+--------------------------------------------------
 sim_results/3_nonsig.csv 
 --------------------------------------------------
-AT1G06910 
-missing value where TRUE/FALSE needed 
-7 7 7 7 7 7 
-AT1G12220 
-missing value where TRUE/FALSE needed 
-23 23 23 23 23 23 
-AT1G14750 
-missing value where TRUE/FALSE needed 
-1 1 1 1 1 1 
-AT1G17070 
-missing value where TRUE/FALSE needed 
-30 30 30 30 30 30 
-AT1G18840 
-missing value where TRUE/FALSE needed 
-15 15 15 15 15 15 
-AT1G23880 
-missing value where TRUE/FALSE needed 
-2 2 2 2 2 2 
-AT1G27070 
-missing value where TRUE/FALSE needed 
-17 17 17 17 17 17 
-AT1G43060 
-missing value where TRUE/FALSE needed 
-0 0 0 0 0 0 
-AT1G47520 
-missing value where TRUE/FALSE needed 
-0 0 0 0 0 0 
-AT1G56420 
-missing value where TRUE/FALSE needed 
-6 6 6 6 6 6 
-AT1G73770 
-missing value where TRUE/FALSE needed 
-1 1 1 1 1 1 
-AT1G75180 
-missing value where TRUE/FALSE needed 
-16 16 16 16 16 16 
-AT2G07784 
-missing value where TRUE/FALSE needed 
-0 0 0 0 0 0 
-AT2G22370 
-missing value where TRUE/FALSE needed 
-8 8 8 8 8 8 
-AT2G27760 
-missing value where TRUE/FALSE needed 
-13 13 13 13 13 13 
-AT2G48090 
-missing value where TRUE/FALSE needed 
-0 0 0 0 0 0 
-AT3G02680 
-missing value where TRUE/FALSE needed 
-3 3 3 3 3 3 
-AT3G08820 
-missing value where TRUE/FALSE needed 
-7 7 7 7 7 7 
-AT3G27470 
-missing value where TRUE/FALSE needed 
-28 28 28 28 28 28 
-AT3G53380 
-missing value where TRUE/FALSE needed 
-6 6 6 6 6 6 
-AT3G57700 
-missing value where TRUE/FALSE needed 
-0 0 0 0 0 0 
-AT3G58900 
-missing value where TRUE/FALSE needed 
-7 7 7 7 7 7 
-AT3G62500 
-missing value where TRUE/FALSE needed 
-3 3 3 3 3 3 
-AT4G07747 
-missing value where TRUE/FALSE needed 
-4 4 4 4 4 4 
-AT4G10550 
-missing value where TRUE/FALSE needed 
-6 6 6 6 6 6 
-AT4G13680 
-missing value where TRUE/FALSE needed 
-0 0 0 0 0 0 
-AT4G15120 
-missing value where TRUE/FALSE needed 
-11 11 11 11 11 11 
-AT4G16460 
-missing value where TRUE/FALSE needed 
-0 0 0 0 0 0 
-AT4G27310 
-missing value where TRUE/FALSE needed 
-26 26 26 26 26 26 
-AT4G39320 
-missing value where TRUE/FALSE needed 
-3 3 3 3 3 3 
-AT5G01510 
-missing value where TRUE/FALSE needed 
-12 12 12 12 12 12 
-AT5G04270 
-missing value where TRUE/FALSE needed 
-6 6 6 6 6 6 
-AT5G06270 
-missing value where TRUE/FALSE needed 
-3 3 3 3 3 3 
-AT5G49555 
-missing value where TRUE/FALSE needed 
-33 33 33 33 33 33 
-AT5G51460 
-missing value where TRUE/FALSE needed 
-11 11 11 11 11 11 
-AT5G61720 
-missing value where TRUE/FALSE needed 
-1 1 1 1 1 1 
-AT5G63960 
-missing value where TRUE/FALSE needed 
-8 8 8 8 8 8 
 sim_results/3_sig.csv 
 --------------------------------------------------
-AT3G47370 
+AT1G26761 
 missing value where TRUE/FALSE needed 
-7 7 7 7 7 7 
+5 5 5 1 1 1 
+AT1G75290 
+missing value where TRUE/FALSE needed 
+1 1 1 3 3 3 
+AT2G44370 
+missing value where TRUE/FALSE needed 
+2 2 2 4 4 4 
+sim_results/30_nonsig.csv 
+--------------------------------------------------
+sim_results/30_sig.csv 
+--------------------------------------------------
 sim_results/4_nonsig.csv 
 --------------------------------------------------
-AT1G68630 
-missing value where TRUE/FALSE needed 
-0 0 0 0 0 0 0 0 
-AT3G47530 
-missing value where TRUE/FALSE needed 
-5 5 5 5 5 5 5 5 
-AT3G56550 
-missing value where TRUE/FALSE needed 
-0 0 0 0 0 0 0 0 
-AT4G14600 
-missing value where TRUE/FALSE needed 
-8 8 8 8 8 8 8 8 
 sim_results/4_sig.csv 
 --------------------------------------------------
-AT2G16090 
+AT3G14150 
 missing value where TRUE/FALSE needed 
-4 4 4 4 1 1 1 1 
+3 3 3 3 2 2 2 2 
 sim_results/5_nonsig.csv 
 --------------------------------------------------
 sim_results/5_sig.csv 
