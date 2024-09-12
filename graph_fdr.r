@@ -5,7 +5,7 @@ library(ggplot2)
 rm(list = ls())
 
 # Path to the folder where the files are stored
-files = list.files(path = "fdr_sim_models", pattern = "p_val", full.names = TRUE)
+files = list.files(path = "fdr_sim_models", pattern = "p_values_fdr_ ", full.names = TRUE)
 
 # Create an empty data frame to store the results
 sim_df = data.frame(
@@ -21,14 +21,14 @@ sim_df = data.frame(
 for (file in files) {
   
   # Identify the file type based on its name
-  if (grepl("nonsig", file)) {
-    file_type = "nonsig"
-  } else if (grepl("sig", file)) {
-    file_type = "sig"
-  } else {
-    next  # Skip files that don't match the criteria
-  }
-  
+  #if (grepl("nonsig", file)) {
+  #  file_type = "nonsig"
+  #} else if (grepl("sig", file)) {
+  #  file_type = "sig"
+  #} else {
+  #  next  # Skip files that don't match the criteria
+  #}
+  file_type = "sig"
   # Extract the number of simulations from the filename using parse_number()
   n = parse_number(file)
   
