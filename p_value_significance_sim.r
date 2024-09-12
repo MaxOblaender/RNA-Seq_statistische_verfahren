@@ -30,8 +30,10 @@ for (filename in files)
     i=2
     for (gene in sim_data[, 3:ncol(sim_data)]) {
         i=i+1
+        # Modelle werden für die simulierten Werte erstellt
         tryCatch({
             model = glm.nb(gene ~ as.factor(treatment), data = sim_data)
+            # p-Werte werden für die Modelle bestimmt
             p=summary(model)$coefficients[,4]
             signif=TRUE
             if (p[2]>=0.05){
@@ -40,11 +42,21 @@ for (filename in files)
             p_values[nrow(p_values)+1,]=c(names[i],p[2],signif,FALSE)
         }, error = function(e) {
         warning(paste("Fehler bei der Anpassung des Modells für", gene, ":", e$message))
-        cat(names[i],"\n", file="log_sim.txt",append=TRUE)
-        #print(names[i])
-        cat(e$message,"\n", file="log_sim.txt",append=TRUE)
-        #print(e$message)
-        cat(gene,"\n", file="log_sim.txt",append=TRUE)
+        tryCatch({
+            if (var(gene)==0){
+                signif=FALSE
+                p_values[nrow(p_values)+1,]=c(names[i],-1,signif,FALSE)
+            }
+            else{
+                cat(names[i],"\n", file="log_sim.txt",append=TRUE)
+                cat(e$message,"\n", file="log_sim.txt",append=TRUE)
+                cat(gene,"\n", file="log_sim.txt",append=TRUE)
+            }
+        }, error =function(ee){
+            print("NA")
+        }
+        )
+
     })
     }
 
@@ -63,6 +75,6 @@ for (filename in files)
             p_values$significant_fdr[i]=FALSE
         }
     }
-    #write.csv(p_values, paste("fdr_sim_models/",name_file[k],"_p_values_fdr.csv"))
+    write.csv(p_values, paste("fdr_sim_models/",name_file[k],"_p_values_fdr.csv"))
     k=k+1
 }
