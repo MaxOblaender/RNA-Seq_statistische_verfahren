@@ -1,8 +1,11 @@
 library(readr)
 library(ggplot2)
 
+# Alle gespeicherten Variablen löschen
+rm(list = ls())
+
 # Path to the folder where the files are stored
-files = list.files(path = "fdr_sim_models", full.names = TRUE)
+files = list.files(path = "fdr_sim_models", pattern = "p_val", full.names = TRUE)
 
 # Create an empty data frame to store the results
 sim_df = data.frame(
@@ -63,3 +66,5 @@ ggsave(filename = "fdr_significant_genes_plot.png",   # File name
        width = 10,                                  # Width in inches
        height = 6,                                  # Height in inches
        dpi = 300)     
+
+write.csv(sim_df, "plot_df.csv")
