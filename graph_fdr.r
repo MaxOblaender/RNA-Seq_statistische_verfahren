@@ -19,15 +19,7 @@ sim_df = data.frame(
 
 # Loop through each file and process based on file type
 for (file in files) {
-  
-  # Identify the file type based on its name
-  #if (grepl("nonsig", file)) {
-  #  file_type = "nonsig"
-  #} else if (grepl("sig", file)) {
-  #  file_type = "sig"
-  #} else {
-  #  next  # Skip files that don't match the criteria
-  #}
+
   file_type = "sig"
   # Extract the number of simulations from the filename using parse_number()
   n = parse_number(file)
@@ -50,21 +42,26 @@ for (file in files) {
 # Convert necessary columns to numeric, because everything is stored as character in a data.frame
 sim_df$number_of_sim_data <- as.numeric(sim_df$number_of_sim_data)
 sim_df$fdr_significant <- as.numeric(sim_df$fdr_significant)
+sim_df$significant <- as.numeric(sim_df$significant)
 
 # Use ggplot2 to create the plot
-plot = ggplot(sim_df, aes(x = number_of_sim_data, y = fdr_significant, color = file_type)) +
-  geom_point(size = 3) +    # Plot points
-  geom_line(aes(group = file_type), size = 1) +  # Add lines connecting the dots
-  scale_color_manual(values = c("sig" = "blue", "nonsig" = "red")) +  # Set colors manually
+plot = ggplot(sim_df, aes(x = number_of_sim_data)) +
+  geom_point(aes(y = significant, color = "Significant"), size = 3) +   # Plot points for significant
+  geom_line(aes(y = significant, color = "Significant", group = file_type), size = 1) +  # Line for significant
+  
+  geom_point(aes(y = fdr_significant, color = "FDR Significant"), size = 3) +   # Plot points for FDR significant
+  geom_line(aes(y = fdr_significant, color = "FDR Significant", group = file_type), size = 1) +  # Line for FDR significant
+  
+  scale_color_manual(values = c("Significant" = "blue", "FDR Significant" = "red")) +  # Set custom colors
   labs(x = "Number of Simulated Data", 
-       y = "FDR Significant Genes", 
-       color = "File Type",  # Label for the legend
-       title = "FDR Significant Genes vs Number of Simulated Data (Sig vs NonSig)") 
+       y = "Number of Significant Genes", 
+       color = "Significance Type",  # Label for the legend
+       title = "Significant and FDR Significant Genes vs Number of Simulated Data")  
 
-ggsave(filename = "fdr_significant_genes_plot.png",   # File name
-       plot = plot,                                  # Plot object
-       width = 10,                                  # Width in inches
-       height = 6,                                  # Height in inches
-       dpi = 300)     
+# Save the plot
+ggsave(filename = "fdr_and_significant_genes_plot.png",   # File name
+       plot = plot,                                       # Plot object
+       width = 10,                                        # Width in inches
+       height = 6)
 
 write.csv(sim_df, "plot_df.csv")
