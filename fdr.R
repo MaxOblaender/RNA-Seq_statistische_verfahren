@@ -9,6 +9,8 @@ m=length(p_data$p_value)
 
 for (i in 1:length(p_data$p_value)){
     if (p_data$p_value[i] <= ((i/m)*q)){
+        print((i/m)/q)
+        print(p_data$p_value[i])
         p_data$significant_fdr[i]=FALSE
     }
     else{
