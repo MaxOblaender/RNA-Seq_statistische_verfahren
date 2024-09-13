@@ -14,7 +14,8 @@ sim_df = data.frame(
   significant = numeric(0),
   non_significant = numeric(0),
   fdr_significant = numeric(0),
-  fdr_non_significant = numeric(0)
+  fdr_non_significant = numeric(0),
+  wrong_sig = numeric(0)
 )
 
 # Loop through each file and process based on file type
@@ -34,9 +35,11 @@ for (file in files) {
   # Count FDR significant and non-significant genes
   fdr_significant = sum(df$significant_fdr == TRUE)
   fdr_non_significant = sum(df$significant_fdr == FALSE)
+
+  wrong_sig = significant - fdr_significant
   
   # Add the results to sim_df
-  sim_df[nrow(sim_df) + 1, ] = c(file_type, n, significant, non_significant, fdr_significant, fdr_non_significant)
+  sim_df[nrow(sim_df) + 1, ] = c(file_type, n, significant, non_significant, fdr_significant, fdr_non_significant, wrong_sig)
 }
 
 # Convert necessary columns to numeric, because everything is stored as character in a data.frame
@@ -64,4 +67,21 @@ ggsave(filename = "fdr_and_significant_genes_plot.png",   # File name
        width = 10,                                        # Width in inches
        height = 6)
 
-write.csv(sim_df, "plot_df.csv")
+#write.csv(sim_df, "plot_df.csv")
+
+# Use ggplot2 to create the plot
+plot = ggplot(sim_df, aes(x = number_of_sim_data)) +
+  geom_point(aes(y = wrong_sig, color = "Significant"), size = 3) +   # Plot points for significant
+  geom_line(aes(y = wrong_sig, color = "Significant", group = file_type), size = 1) +  # Line for significant
+  
+  scale_color_manual(values = c("Significant" = "blue")) +  # Set custom colors
+  labs(x = "Number of Simulated Data", 
+       y = "Number of Significant Genes", 
+       color = "Significance Type",  # Label for the legend
+       title = "Significant and FDR Significant Genes vs Number of Simulated Data")  
+
+# Save the plot
+ggsave(filename = "wrongly_significant.png",   # File name
+       plot = plot,                                       # Plot object
+       width = 10,                                        # Width in inches
+       height = 6)
