@@ -61,7 +61,7 @@ plot = ggplot(sim_df, aes(x = number_of_sim_data)) +
   geom_line(aes(y = fdr_significant, color = "FDR Significant", group = file_type), size = 1) +  # Line for FDR significant
   
   scale_color_manual(values = c("Significant" = "blue", "FDR Significant" = "red")) +  # Set custom colors
-  labs(x = "Anzahl der Simulationen", 
+  labs(x = "Simulationsumfang", 
        y = "Anzahl signifikanter Gene", 
        color = "Signifikanz",  # Label for the legend
        title = "Significante Gene vor und nach FDR Analyse")  
@@ -79,11 +79,11 @@ plot = ggplot(sim_df, aes(x = number_of_sim_data)) +
   geom_point(aes(y = wrong_sig, color = "Significant"), size = 3) +   # Plot points for significant
   geom_line(aes(y = wrong_sig, color = "Significant", group = file_type), size = 1) +  # Line for significant
   
-  scale_color_manual(values = c("Significant" = "blue")) +  # Set custom colors
-  labs(x = "Anzahl der Simulationen", 
+  scale_color_manual(values = c("Significant" = "red")) +  # Set custom colors
+  labs(x = "Simulationsumfang", 
        y = "Anzahl falsch signifikanter Gene", 
        color = "Signifikanz",  # Label for the legend
-       title = "Falsch klassifizierte Gene")  
+       title = "Falsch signifikante Gene")  
 
 # Save the plot
 ggsave(filename = "wrongly_significant.png",   # File name
@@ -97,13 +97,32 @@ plot = ggplot(sim_df, aes(x = number_of_sim_data)) +
   geom_line(aes(y = fdr, color = "Significant", group = file_type), size = 1) +  # Line for significant
   
   scale_color_manual(values = c("Significant" = "blue")) +  # Set custom colors
-  labs(x = "Anzahl der Simulationen", 
-       y = "Anzahl falsch signifikanter Gene", 
+  labs(x = "Simulationsumfang", 
+       y = "Falsch signifikante Gene / Alle signifikanten Gene", 
        color = "Signifikanz",  # Label for the legend
-       title = "Falsch klassifizierte Gene")  
+       title = "False Discovery Rate")  
 
 # Save the plot
 ggsave(filename = "fdr.png",   # File name
+       plot = plot,                                       # Plot object
+       width = 10,                                        # Width in inches
+       height = 6)
+
+plot = ggplot(sim_df, aes(x = number_of_sim_data)) +
+  geom_point(aes(y = significant, color = "Signifikant"), size = 3) +   # Plot points for significant
+  geom_line(aes(y = significant, color = "Signifikant", group = file_type), size = 1) +  # Line for significant
+  
+  geom_point(aes(y = wrong_sig, color = "Fälschlich signifikant"), size = 3) +   # Plot points for FDR significant
+  geom_line(aes(y = wrong_sig, color = "Fälschlich signifikant", group = file_type), size = 1) +  # Line for FDR significant
+  
+  scale_color_manual(values = c("Signifikant" = "blue", "Fälschlich signifikant" = "red")) +  # Set custom colors
+  labs(x = "Simulationsumfang", 
+       y = "Anzahl Gene", 
+       color = "Signifikanz",  # Label for the legend
+       title = "Signifikante und fälschlich signifikante Gene")  
+
+# Save the plot
+ggsave(filename = "false_sig.png",   # File name
        plot = plot,                                       # Plot object
        width = 10,                                        # Width in inches
        height = 6)
