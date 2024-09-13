@@ -46,6 +46,7 @@ for (file in files) {
 sim_df$number_of_sim_data <- as.numeric(sim_df$number_of_sim_data)
 sim_df$fdr_significant <- as.numeric(sim_df$fdr_significant)
 sim_df$significant <- as.numeric(sim_df$significant)
+sim_df$wrong_sig <- as.numeric(sim_df$wrong_sig)
 
 # Use ggplot2 to create the plot
 plot = ggplot(sim_df, aes(x = number_of_sim_data)) +
