@@ -67,7 +67,7 @@ plot = ggplot(sim_df, aes(x = number_of_sim_data)) +
        title = "Significante Gene vor und nach FDR Analyse")  
 
 # Save the plot
-ggsave(filename = "fdr_and_significant_genes_plot.png",   # File name
+ggsave(filename = "plots/fdr_and_significant_genes_plot.png",   # File name
        plot = plot,                                       # Plot object
        width = 10,                                        # Width in inches
        height = 6)
@@ -86,7 +86,7 @@ plot = ggplot(sim_df, aes(x = number_of_sim_data)) +
        title = "Falsch signifikante Gene")  
 
 # Save the plot
-ggsave(filename = "wrongly_significant.png",   # File name
+ggsave(filename = "plots/wrongly_significant.png",   # File name
        plot = plot,                                       # Plot object
        width = 10,                                        # Width in inches
        height = 6)
@@ -103,7 +103,7 @@ plot = ggplot(sim_df, aes(x = number_of_sim_data)) +
        title = "False Discovery Rate")  
 
 # Save the plot
-ggsave(filename = "fdr.png",   # File name
+ggsave(filename = "plots/fdr.png",   # File name
        plot = plot,                                       # Plot object
        width = 10,                                        # Width in inches
        height = 6)
@@ -122,7 +122,7 @@ plot = ggplot(sim_df, aes(x = number_of_sim_data)) +
        title = "Signifikante und fälschlich signifikante Gene")  
 
 # Save the plot
-ggsave(filename = "false_sig.png",   # File name
+ggsave(filename = "plots/false_sig.png",   # File name
        plot = plot,                                       # Plot object
        width = 10,                                        # Width in inches
        height = 6)
