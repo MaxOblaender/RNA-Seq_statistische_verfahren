@@ -57,10 +57,10 @@ plot = ggplot(sim_df, aes(x = number_of_sim_data)) +
   geom_line(aes(y = fdr_significant, color = "FDR Significant", group = file_type), size = 1) +  # Line for FDR significant
   
   scale_color_manual(values = c("Significant" = "blue", "FDR Significant" = "red")) +  # Set custom colors
-  labs(x = "Number of Simulated Data", 
-       y = "Number of Significant Genes", 
+  labs(x = "Anzahl der Simulationen", 
+       y = "Anzahl significanter Gene", 
        color = "Significance Type",  # Label for the legend
-       title = "Significant and FDR Significant Genes vs Number of Simulated Data")  
+       title = "Significante Gene vor und nach FDR Analyse")  
 
 # Save the plot
 ggsave(filename = "fdr_and_significant_genes_plot.png",   # File name
@@ -76,10 +76,10 @@ plot = ggplot(sim_df, aes(x = number_of_sim_data)) +
   geom_line(aes(y = wrong_sig, color = "Significant", group = file_type), size = 1) +  # Line for significant
   
   scale_color_manual(values = c("Significant" = "blue")) +  # Set custom colors
-  labs(x = "Number of Simulated Data", 
-       y = "Number of Significant Genes", 
+  labs(x = "Anzahl der Simulationen", 
+       y = "Anzahl falsch signifikanter Gene", 
        color = "Significance Type",  # Label for the legend
-       title = "Significant and FDR Significant Genes vs Number of Simulated Data")  
+       title = "Falsch klassifizierte Gene")  
 
 # Save the plot
 ggsave(filename = "wrongly_significant.png",   # File name
