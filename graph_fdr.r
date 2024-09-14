@@ -93,10 +93,10 @@ ggsave(filename = "plots/wrongly_significant.png",   # File name
 
        # Use ggplot2 to create the plot
 plot = ggplot(sim_df, aes(x = number_of_sim_data)) +
-  geom_point(aes(y = fdr, color = "Significant"), size = 3) +   # Plot points for significant
-  geom_line(aes(y = fdr, color = "Significant", group = file_type), size = 1) +  # Line for significant
+  geom_point(aes(y = fdr, color = "Signifikant"), size = 3) +   # Plot points for significant
+  geom_line(aes(y = fdr, color = "Signifikant", group = file_type), size = 1) +  # Line for significant
   
-  scale_color_manual(values = c("Significant" = "blue")) +  # Set custom colors
+  scale_color_manual(values = c("Signifikant" = "blue")) +  # Set custom colors
   labs(x = "Simulationsumfang", 
        y = "Falsch signifikante Gene / Alle signifikanten Gene", 
        color = "Signifikanz",  # Label for the legend
